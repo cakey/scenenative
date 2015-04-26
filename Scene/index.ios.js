@@ -1,9 +1,13 @@
+/* @flow */
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
 
+
+'use strict';
+var foo = require('./foo.js');
 var React = require('react-native');
 var {
   AppRegistry,
@@ -14,14 +18,13 @@ var {
 
 var Scene = React.createClass({
   render: function() {
-    console.log("yo???");
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit index.ios.js test
+          To get started, edit index.ios.js {`${foo(42)}`}
         </Text>
         <Text style={styles.instructions}>
           Press Cmd+R to reload,{'\n'}
@@ -37,7 +40,7 @@ var styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#33BBFF',
   },
   welcome: {
     fontSize: 20,
