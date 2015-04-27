@@ -14,6 +14,8 @@ var {
   ListView,
   StyleSheet,
   Text,
+  TouchableHighlight,
+  VibrationIOS,
   View,
 } = React;
 
@@ -30,26 +32,26 @@ for (var i=0; i<25; i++) {
 var Scene = React.createClass({
 
   getInitialState: function() {
-    var dataSource = new ListView.DataSource({
-      rowHasChanged: (row1, row2) => row1 !== row2,
-    });
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: dataSource.cloneWithRows(MOCKED_STORIES_DATA),
+      dataSource: ds.cloneWithRows(MOCKED_STORIES_DATA),
     }
   },
 
-  renderPlace: function(place) {
+  renderPlace: function(place, sectionID, rowID) {
     return (
-      <View style={styles.container}>
-        <Image
-          source={{uri: place.image}}
-          style={styles.thumbnail}
-        />
-        <View style={styles.rightContainer}>
-          <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
-          <Text style={[styles.elementLabel, styles.location]}>{place.location}</Text>
+      <TouchableHighlight>
+        <View style={styles.container}>
+          <Image
+            source={{uri: place.image}}
+            style={styles.thumbnail}
+          />
+          <View style={styles.rightContainer}>
+            <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
+            <Text style={[styles.elementLabel, styles.location]}>{place.location}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
     );
   },
 
@@ -65,15 +67,15 @@ var Scene = React.createClass({
 
 var styles = StyleSheet.create({
   listView: {
-    backgroundColor: '#222222',
+    marginTop: 20,
+    backgroundColor: '#111111',
   },
   container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    backgroundColor: '#111111',
     alignItems: 'center',
-    marginBottom: 1,
+    height: 64,
   },
   rightContainer: {
     flex: 1,
