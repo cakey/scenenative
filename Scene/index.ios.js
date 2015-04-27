@@ -46,8 +46,8 @@ var Scene = React.createClass({
           style={styles.thumbnail}
         />
         <View style={styles.rightContainer}>
-          <Text style={styles.name}>{place.name}</Text>
-          <Text style={styles.location}>{place.location}</Text>
+          <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
+          <Text style={[styles.elementLabel, styles.location]}>{place.location}</Text>
         </View>
       </View>
     );
@@ -78,19 +78,18 @@ var styles = StyleSheet.create({
   rightContainer: {
     flex: 1,
   },
-  name: {
-    fontSize: 12,
-    fontWeight: "bold",
-    marginBottom: 8,
+  elementLabel: {
     textAlign: 'left',
     color: '#888888',
     paddingLeft: 8,
   },
+  name: {
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
   location: {
     fontSize: 8,
-    textAlign: 'left',
-    color: '#888888',
-    paddingLeft: 8,
   },
   thumbnail: {
     width: 275,
