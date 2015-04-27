@@ -31,32 +31,60 @@ for (var i=0; i<25; i++) {
 
 var Scene = React.createClass({
 
+  _withRow: function(places, rowID) {
+    return places.map((p) => {
+      return {
+        name: p.name,
+        location: p.location,
+        image: p.image,
+        currentSelected: rowID,
+      }
+    });
+  },
+
   getInitialState: function() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
-      dataSource: ds.cloneWithRows(MOCKED_STORIES_DATA),
+      dataSource: ds.cloneWithRows(this._withRow(MOCKED_STORIES_DATA, null)),
+      row: null,
     }
   },
 
+  setRow: function(rowID) {
+    if (this.state.row === rowID) {
+      rowID = null; //unselect current on press
+    }
+    this.setState({
+      row: rowID,
+      dataSource: this.state.dataSource.cloneWithRows(this._withRow(MOCKED_STORIES_DATA, rowID)),
+    })
+  },
+
   renderPlace: function(place, sectionID, rowID) {
+    var information = false;
+    if (rowID === place.currentSelected) {
+      information = <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
+    }
     return (
-      <TouchableHighlight>
-        <View style={styles.container}>
-          <Image
-            source={{uri: place.image}}
-            style={styles.thumbnail}
-          />
-          <View style={styles.rightContainer}>
-            <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
-            <Text style={[styles.elementLabel, styles.location]}>{place.location}</Text>
+      <TouchableHighlight onPress={() => this.setRow(rowID)}>
+        <View style={styles.placeContainer}>
+          <View style={styles.placeHeader}>
+            <Image
+              source={{uri: place.image}}
+              style={styles.thumbnail}
+            />
+            <View style={styles.rightContainer}>
+              <Text style={[styles.elementLabel, styles.name]}>{place.name}</Text>
+              <Text style={[styles.elementLabel, styles.location]}>{place.location}</Text>
+            </View>
           </View>
+          { information }
         </View>
       </TouchableHighlight>
     );
   },
 
   render: function() {
-    debugger;
     return <ListView
       dataSource={this.state.dataSource}
       renderRow={this.renderPlace}
@@ -70,7 +98,11 @@ var styles = StyleSheet.create({
     marginTop: 20,
     backgroundColor: '#111111',
   },
-  container: {
+  placeContainer: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  placeHeader: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
